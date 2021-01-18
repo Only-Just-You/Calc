@@ -130,7 +130,7 @@ public class Calculator extends WindowAdapter {
                     Integer n = queueN.pop();
                     String tmp = "";
                     int j = i;
-                    for(; !isDigit(str.charAt(j)); j++);
+                    for(; isDigit(str.charAt(j)); j++);
                     tmp = str.substring(i,j);
                     queueN.push(Integer.parseInt(tmp) * n) ;
                 }else if(str.charAt(i) == '/'){
@@ -138,7 +138,7 @@ public class Calculator extends WindowAdapter {
                     Integer n = queueN.pop();
                     String tmp = "";
                     int j = i;
-                    for(; !isDigit(str.charAt(j)); j++);
+                    for(; isDigit(str.charAt(j)); j++);
                     tmp = str.substring(i,j);
                     queueN.push(n / Integer.parseInt(tmp)) ;
                     i = j;
