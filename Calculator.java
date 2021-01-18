@@ -133,6 +133,7 @@ public class Calculator extends WindowAdapter {
                     for(; isDigit(str.charAt(j)); j++);
                     tmp = str.substring(i,j);
                     queueN.push(Integer.parseInt(tmp) * n) ;
+                    i = j - 1;
                 }else if(str.charAt(i) == '/'){
                     i++;
                     Integer n = queueN.pop();
@@ -141,7 +142,7 @@ public class Calculator extends WindowAdapter {
                     for(; isDigit(str.charAt(j)); j++);
                     tmp = str.substring(i,j);
                     queueN.push(n / Integer.parseInt(tmp)) ;
-                    i = j;
+                    i = j - 1;
                 }else{
                     String tmp = "";
                     int j = i;
