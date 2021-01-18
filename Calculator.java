@@ -1,11 +1,10 @@
 package org.example.jsq;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.Stack;
+
+import static java.lang.Character.isDigit;
 
 public class Calculator extends WindowAdapter {
     Panel p1 = new Panel();
@@ -39,17 +38,31 @@ public class Calculator extends WindowAdapter {
 
         txt = new TextField(15);
         txt.setEditable(true);
+
+        txt.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if(e.getKeyChar() == '\n'){
+                    new ButtonListener().jisuan();
+                    str = String.valueOf(a);
+                    txt.setText(str);
+                }
+            }
+        });
+
         for(int i=0; i < 16; i++){
             b[i].addActionListener(new ButtonListener());
         }
         b[16].addActionListener(new Close());
+
         fm.addWindowListener(this);
 
         fm.setBackground(Color.red);
         p1.setLayout(new BorderLayout());
         p1.add(txt,"North");
         p2.setLayout(new GridLayout(4,4));
-        p3.setLayout(new BorderLayout());
+        p3.setLayout(new BorderLayout(50,50));
         p3.add(b[16]);
 
         fm.add(p1,"North");
@@ -57,7 +70,7 @@ public class Calculator extends WindowAdapter {
         fm.add(p3,"South");
 
         fm.pack();
-        fm.setSize(300,400);
+        fm.setSize(300,450);
         fm.setLocation(350,350);
         fm.setVisible(true);
     }
@@ -99,7 +112,7 @@ public class Calculator extends WindowAdapter {
             }
         }
 
-        private void jisuan() {
+        public void jisuan() {
             String str = txt.getText();
             str += "=";
             Stack<Integer> queueN = new Stack<>();
@@ -114,14 +127,28 @@ public class Calculator extends WindowAdapter {
                     queueFu.push('-');
                 }else if(str.charAt(i) == '*'){
                     i++;
-                    Integer n = queueN.pop();;
-                    queueN.push((str.charAt(i) - '0') * n) ;
+                    Integer n = queueN.pop();
+                    String tmp = "";
+                    int j = i;
+                    for(; !isDigit(str.charAt(j)); j++);
+                    tmp = str.substring(i,j);
+                    queueN.push(Integer.parseInt(tmp) * n) ;
                 }else if(str.charAt(i) == '/'){
                     i++;
-                    Integer n = queueN.pop();;
-                    queueN.push(n / (str.charAt(i) - '0')) ;
+                    Integer n = queueN.pop();
+                    String tmp = "";
+                    int j = i;
+                    for(; !isDigit(str.charAt(j)); j++);
+                    tmp = str.substring(i,j);
+                    queueN.push(n / Integer.parseInt(tmp)) ;
+                    i = j;
                 }else{
-                    queueN.push(str.charAt(i) - '0');
+                    String tmp = "";
+                    int j = i;
+                    for(; isDigit(str.charAt(j)); j++);
+                    tmp = str.substring(i,j);
+                    queueN.push(Integer.parseInt(tmp));
+                    i = j - 1;
                 }
                 i++;
             }
