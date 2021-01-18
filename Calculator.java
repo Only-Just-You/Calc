@@ -17,7 +17,7 @@ public class Calculator extends WindowAdapter {
     private String ss[] = {"7","8","9","+","4","5","6","-","1","2","3","*","clear",
     "0","=","/","close"};
 
-    static Integer a;
+    static Double a;
     static String str;
 
 
@@ -115,7 +115,7 @@ public class Calculator extends WindowAdapter {
         public void jisuan() {
             String str = txt.getText();
             str += "=";
-            Stack<Integer> queueN = new Stack<>();
+            Stack<Double> queueN = new Stack<>();
             Stack<Character> queueFu = new Stack<>();
 
             int i=0;
@@ -127,7 +127,7 @@ public class Calculator extends WindowAdapter {
                     queueFu.push('-');
                 }else if(str.charAt(i) == '*'){
                     i++;
-                    Integer n = queueN.pop();
+                    Double n = queueN.pop();
                     String tmp = "";
                     int j = i;
                     for(; isDigit(str.charAt(j)); j++);
@@ -136,7 +136,7 @@ public class Calculator extends WindowAdapter {
                     i = j - 1;
                 }else if(str.charAt(i) == '/'){
                     i++;
-                    Integer n = queueN.pop();
+                    Double n = queueN.pop();
                     String tmp = "";
                     int j = i;
                     for(; isDigit(str.charAt(j)); j++);
@@ -148,16 +148,16 @@ public class Calculator extends WindowAdapter {
                     int j = i;
                     for(; isDigit(str.charAt(j)); j++);
                     tmp = str.substring(i,j);
-                    queueN.push(Integer.parseInt(tmp));
+                    queueN.push(Double.parseDouble(tmp));
                     i = j - 1;
                 }
                 i++;
             }
 
             while(queueFu.size() != 0){
-                Integer n = queueN.pop();
+                Double n = queueN.pop();
                 Character c =queueFu.pop();
-                Integer n1 = queueN.pop();
+                Double n1 = queueN.pop();
                 if(c == '+'){
                     queueN.push(n + n1);
                 }else if(c == '-'){
